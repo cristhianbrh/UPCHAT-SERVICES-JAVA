@@ -1,14 +1,20 @@
 package com.upchat.services;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.upchat.dtos.messageCreateNewDto;
+import com.upchat.dtos.messageGetAllInfoDto;
+import com.upchat.dtos.messageGetAllInfoQuery;
+import com.upchat.dtos.messageGetAllInfo_userDto;
 import com.upchat.model.Categoria;
 import com.upchat.model.Mensaje;
 import com.upchat.model.StarCalification;
@@ -51,7 +57,7 @@ public class MensajeService implements IMensajeService {
 			if (!mensajeFather.isPresent()) {
 				return new ResponseEntity<>("El mensaje al que quieres responder no existe", HttpStatus.NOT_FOUND);
 			}
-			
+
 		}
 
 		Optional<Categoria> categoria = categoriaRepo.findById(mensaje.idCategoria);
@@ -71,7 +77,7 @@ public class MensajeService implements IMensajeService {
 		System.out.println(user.get().toString());
 		System.out.println(newMessage.toString());
 		mensajeRepo.save(newMessage);
- 
+
 		return new ResponseEntity<>("Insertado correctamente", HttpStatus.OK);
 
 		// Usuario user = new Usuario();
@@ -88,9 +94,38 @@ public class MensajeService implements IMensajeService {
 	}
 
 	@Override
-	public List<Mensaje> findPublishersAll(String jwt) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<List<Object[]>> findPublishersAll(String jwt) {
+		Claims claim = jwtUtil.extractAllClaims(jwt);
+		int idUser = ((Number) claim.get("id")).intValue();
+
+		Optional<Usuario> user = usuarioRepo.findById(idUser);
+		if (!user.isPresent()) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+		List<Object[]> messagesList = mensajeRepo.findCustomMessages(idUser, -1);
+		// List<messageGetAllInfoDto> ListFormatedMessages = messagesList.stream()
+		// .map(msgCurrent -> new messageGetAllInfoDto(
+		// 	Integer.parseInt(msgCurrent[0].toString()), 
+		// 	msgCurrent[1].toString(), 
+		// 	msgCurrent[2].toString(), 
+		// 	Integer.parseInt(msgCurrent[3].toString()),
+		// 	msgCurrent[4].toString(), 
+		// 	msgCurrent[5].toString(),
+		// 	Integer.parseInt(msgCurrent[6].toString()),
+		// 	new Date(msgCurrent[7].toString()),
+		// 	Integer.parseInt(msgCurrent[8].toString()),
+		// 	Boolean.parseBoolean(msgCurrent[9].toString()),
+		// 	Integer.parseInt(msgCurrent[10].toString()),
+		// 	Integer.parseInt(msgCurrent[11].toString()),
+		// 	new messageGetAllInfo_userDto(
+		// 		Integer.parseInt(msgCurrent[13].toString()),
+		// 		msgCurrent[14].toString(),
+		// 		msgCurrent[15].toString()
+		// 	),
+		// 	Double.parseDouble(msgCurrent[16].toString())	
+		// ));
+
+		return new ResponseEntity<>(messagesList, HttpStatus.OK);
 	}
 
 	@Override
@@ -116,7 +151,5 @@ public class MensajeService implements IMensajeService {
 		return "MensajeService [jwtUtil=" + jwtUtil + ", usuarioRepo=" + usuarioRepo + ", mensajeRepo=" + mensajeRepo
 				+ ", categoriaRepo=" + categoriaRepo + "]";
 	}
-
-	
 
 }

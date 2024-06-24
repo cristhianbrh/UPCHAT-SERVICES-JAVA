@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 
 import com.upchat.dtos.messageCreateNewDto;
+import com.upchat.dtos.messageGetAllInfoQuery;
 import com.upchat.model.Mensaje;
 import com.upchat.model.StarCalification;
 
@@ -13,7 +14,7 @@ public interface IMensajeService {
 
 	public List<Mensaje> findAll();
 
-	public List<Mensaje> findPublishersAll(String jwt);
+	public ResponseEntity<List<Object[]>> findPublishersAll(String jwt);
 
 	public List<Mensaje> findResponsesInMessage(String jwt, int number);
 
