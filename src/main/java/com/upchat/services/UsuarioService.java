@@ -10,27 +10,33 @@ import com.upchat.model.Rol;
 import com.upchat.model.Usuario;
 import com.upchat.repositorio.IRolRepo;
 import com.upchat.repositorio.IUsuarioRepo;
+import com.upchat.utils.JwtUtil;
 import com.upchat.utils.PasswordUtil;
+
+import io.jsonwebtoken.Jwts;
 
 @Service
 public class UsuarioService implements IUsuarioService {
 
 	@Autowired
 	IUsuarioRepo usuarioRepo;
-	
-	@Autowired 
+
+	@Autowired
 	IRolRepo rolRepo;
 
 	@Autowired
 	PasswordUtil passwordUtil;
 
+	@Autowired
+	JwtUtil jwtUtil;
+
 	@Override
 	public ResponseEntity<String> AddUsuario(usersAddDto newUsuario) {
 		System.out.println(newUsuario);
-		
+
 		Rol rol = rolRepo.findById(252).get();
 		System.out.println(rol);
-		
+
 		Usuario usuario = new Usuario();
 		usuario.setNombre(newUsuario.nombre);
 		usuario.setCorreo(newUsuario.correo);
@@ -40,16 +46,28 @@ public class UsuarioService implements IUsuarioService {
 		usuario.setRol(rol);
 		System.out.println(newUsuario);
 
-		
 		usuarioRepo.save(usuario);
-		
-		return new ResponseEntity<>("Genial sèha insertado correctamente", HttpStatus.OK);
+
+		String userJwt = jwtUtil.JwtGenerateUser(usuario);
+		// String jwt = Jwts.builder()
+		// .setSubject(usuario);
+
+		return new ResponseEntity<>(userJwt, HttpStatus.OK);
 	}
 
 	@Override
-	public String LoginUser(String user, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResponseEntity<String> LoginUser(String user, String password) {
+
+		Usuario usuario = usuarioRepo.findByCorreo(user);
+		if (usuario == null) {
+			return new ResponseEntity<>("Usuario no existe", HttpStatus.NOT_FOUND);
+		}
+		if (!passwordUtil.verifyPassword(password, usuario.getClave())) {
+			return new ResponseEntity<>("La contraseña no es correcta", HttpStatus.NOT_FOUND);
+		}
+
+		System.out.println(usuario);
+		return new ResponseEntity<>(jwtUtil.JwtGenerateUser(usuario), HttpStatus.OK);
 	}
 
 	@Override

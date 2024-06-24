@@ -8,5 +8,5 @@ import com.upchat.model.Usuario;
 
 @Repository
 public interface IUsuarioRepo extends JpaRepository<Usuario, Integer>  {
-
+    Usuario findByCorreo(String correo);
 }
