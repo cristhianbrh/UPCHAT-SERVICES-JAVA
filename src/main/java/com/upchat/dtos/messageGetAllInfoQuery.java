@@ -14,9 +14,12 @@ public class messageGetAllInfoQuery {
     public Long id_mensaje_referencia;
     public String estado;
     public Long id_usuario;
-    public String nombre_usuario;
-    public String url_foto_usuario;
+    public String user_nombre;
+    public String url_foto;
     public Integer cantidad_referencias;
     public Double star_calificacion_promedio;
     public Integer user_start;
+
+
+    
 }

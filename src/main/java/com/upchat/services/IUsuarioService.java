@@ -11,4 +11,6 @@ public interface IUsuarioService {
 	public  ResponseEntity<String> LoginUser(String user, String password);
 
 	public Usuario getUserById(int id);
+
+	public ResponseEntity<String> AuthUserByJwt(String jwt);
 }

@@ -77,4 +77,15 @@ public class UsuarioService implements IUsuarioService {
 		return null;
 	}
 
+	@Override
+	public ResponseEntity<String> AuthUserByJwt(String jwt) {
+
+		boolean isValid = jwtUtil.isJwtValid(jwt);
+		if (!isValid) {
+			return new ResponseEntity<>("El token no es incorrecto", HttpStatus.NOT_FOUND);
+		}
+
+		return new ResponseEntity<>(jwt, HttpStatus.OK);
+	}
+
 }

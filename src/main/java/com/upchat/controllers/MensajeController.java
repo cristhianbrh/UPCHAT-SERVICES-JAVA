@@ -40,8 +40,8 @@ public class MensajeController {
         return mensajeService.CrearMensaje(newMessage, jwt, "newResponse");
     }
 
-    @GetMapping("/allpublications")
     // public List<messageGetAllInfoQuery> findAllPublications(
+    @GetMapping("/allpublications")
     public ResponseEntity<List<Object[]>> findAllPublications(
         @RequestParam(name = "jwt") String jwt
     ){

@@ -21,10 +21,7 @@ public class JwtUtil {
 
 	public JwtUtil() {
 		super();
-		// keyGenerate = Keys.hmacShaKeyFor(secretKey.getBytes());
-		// keyGenerate = Jwts.SIG.HS256.key(secretKey).build();
-		// keyGenerate = new SecretKeySpec(secretKey.getBytes(),
-		// SignatureAlgorithm.HS256.getJcaName());
+
 		keyGenerate = Keys.hmacShaKeyFor(secretKey.getBytes());
 	}
 
@@ -35,8 +32,6 @@ public class JwtUtil {
 		claims.put("correo", user.getCorreo());
 		claims.put("idRol", user.getRol().getIdRol());
 
-		// byte[] secByte = secretKey.getBytes();
-		// Key secKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 		String jwt = Jwts.builder()
 				.claims(claims)
 				.subject(user.getCorreo())
@@ -44,7 +39,6 @@ public class JwtUtil {
 				.expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 horas
 				.signWith(keyGenerate)
 				.compact();
-		// Jwts.SIG.HS384.key().build()
 
 		return jwt;
 	}
@@ -57,8 +51,17 @@ public class JwtUtil {
 				.getPayload();
 	}
 
-	// public Claims extractAllClaims(HttpServiceRequest request) {
-	// return
-	// Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-	// }
+	public boolean isJwtValid(String jwt){
+		try{
+			Jwts.parser()
+			.verifyWith(keyGenerate)
+			.build()
+			.parseSignedClaims(jwt);
+
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+
 }

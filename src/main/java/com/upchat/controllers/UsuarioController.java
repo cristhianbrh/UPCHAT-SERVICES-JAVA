@@ -33,4 +33,6 @@ public class UsuarioController {
 		return usuarioService.LoginUser(user, password);
 	}
 
+	
+
 }
