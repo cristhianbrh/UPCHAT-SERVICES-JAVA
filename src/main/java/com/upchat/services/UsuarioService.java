@@ -34,7 +34,8 @@ public class UsuarioService implements IUsuarioService {
 	public ResponseEntity<String> AddUsuario(usersAddDto newUsuario) {
 		System.out.println(newUsuario);
 
-		Rol rol = rolRepo.findById(252).get();
+		// Rol rol = rolRepo.findById(302).get();
+		Rol rol = rolRepo.findByDescripcion("usuario");
 		System.out.println(rol);
 
 		Usuario usuario = new Usuario();

@@ -7,8 +7,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
+import com.upchat.model.Categoria;
 import com.upchat.model.Rol;
+import com.upchat.repositorio.ICategoriaRepo;
+import com.upchat.services.ICategoriaService;
 import com.upchat.services.IRolService;
 
 @SpringBootApplication
@@ -19,6 +21,9 @@ public class UpchatServicesApplication  implements CommandLineRunner {
 	
 	@Autowired
 	IRolService rolService;
+
+	@Autowired
+	ICategoriaService categoriaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(UpchatServicesApplication.class, args);
@@ -42,7 +47,14 @@ public class UpchatServicesApplication  implements CommandLineRunner {
 		newRol2.setDescripcion("admin");
 		newRol2.setEsActivo(true);
 
+
+		Categoria newCategory = new Categoria();
+		newCategory.setIdCategoria(1);
+		newCategory.setDescripcion("Todos");
+
 		newRol1 = rolService.createRol(newRol1);
+
+		categoriaService.addCategoria(newCategory);
 		rolService.createRol(newRol2);
 		logger.info("Mi aplicacion con Spring esta funcionando");
 	}

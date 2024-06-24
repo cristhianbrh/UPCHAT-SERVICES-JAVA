@@ -5,9 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.upchat.model.Mensaje;
 
-
-
 @Repository
 public interface IMensajeRepo extends JpaRepository<Mensaje, Integer> {
-
+    Mensaje findByIdMensajeReferencia(int id);
 }

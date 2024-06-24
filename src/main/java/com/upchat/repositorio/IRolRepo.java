@@ -8,5 +8,5 @@ import com.upchat.model.Rol;
 
 @Repository
 public interface IRolRepo extends JpaRepository<Rol, Integer> {
-
+    Rol findByDescripcion(String descripcion);
 }

@@ -2,11 +2,14 @@ package com.upchat.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
+import com.upchat.dtos.messageCreateNewDto;
 import com.upchat.model.Mensaje;
 import com.upchat.model.StarCalification;
 
 public interface IMensajeService {
-	public Mensaje CrearMensaje(Mensaje mensaje);
+	public ResponseEntity<String> CrearMensaje(messageCreateNewDto mensaje, String jwt, String type);
 
 	public List<Mensaje> findAll();
 

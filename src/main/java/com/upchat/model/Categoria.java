@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 
 @Entity
 public class Categoria {
@@ -19,18 +20,18 @@ public class Categoria {
 	private String descripcion;
 	
 	@OneToMany(mappedBy="categoria")
-	private List<Mensaje> mensajes;
+	private List<Mensaje> mensaje;
 
 	public Categoria() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Categoria(int idCategoria, String descripcion, List<Mensaje> mensajes) {
+	public Categoria(int idCategoria, String descripcion, List<Mensaje> mensaje) {
 		super();
 		this.idCategoria = idCategoria;
 		this.descripcion = descripcion;
-		this.mensajes = mensajes;
+		this.mensaje = mensaje;
 	}
 
 	public int getIdCategoria() {
@@ -50,10 +51,10 @@ public class Categoria {
 	}
 
 	public List<Mensaje> getMensajes() {
-		return mensajes;
+		return mensaje;
 	}
 
-	public void setMensajes( List<Mensaje> mensajes) {
-		this.mensajes = mensajes;
+	public void setMensaje( List<Mensaje> mensaje) {
+		this.mensaje = mensaje;
 	}
 }

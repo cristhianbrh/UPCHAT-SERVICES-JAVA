@@ -19,7 +19,7 @@ import jakarta.persistence.TemporalType;
 public class Mensaje {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idMensaje;
+	private int idMensaje;
 
 	@Column(length = 100, nullable = false)
 	private String asunto;
@@ -37,7 +37,7 @@ public class Mensaje {
 	private String nombreArchivo;
 
 	@Column(nullable = true)
-	private Long idMensajeReferencia;
+	private int idMensajeReferencia;
 
 	@ManyToOne
 	@JoinColumn(name = "categoria", nullable = false)
@@ -59,11 +59,12 @@ public class Mensaje {
 
 	public Mensaje() {
 		super();
+		this.fechaRegistro = new Date();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mensaje(Long idMensaje, String asunto, String messag, Integer estrellas, String urlArchivo,
-			String nombreArchivo, Long idMensajeReferencia, Categoria categoria, Date fechaRegistro, Boolean estado,
+	public Mensaje(int idMensaje, String asunto, String messag, Integer estrellas, String urlArchivo,
+			String nombreArchivo, int idMensajeReferencia, Categoria categoria, Boolean estado,
 			Usuario usuario, List<StarCalification> stars) {
 		super();
 		this.idMensaje = idMensaje;
@@ -74,17 +75,17 @@ public class Mensaje {
 		this.nombreArchivo = nombreArchivo;
 		this.idMensajeReferencia = idMensajeReferencia;
 		this.categoria = categoria;
-		this.fechaRegistro = fechaRegistro;
+		this.fechaRegistro = new Date();
 		this.estado = estado;
 		this.usuario = usuario;
 		this.stars = stars;
 	}
 
-	public Long getIdMensaje() {
+	public int getIdMensaje() {
 		return idMensaje;
 	}
 
-	public void setIdMensaje(Long idMensaje) {
+	public void setIdMensaje(int idMensaje) {
 		this.idMensaje = idMensaje;
 	}
 
@@ -128,11 +129,11 @@ public class Mensaje {
 		this.nombreArchivo = nombreArchivo;
 	}
 
-	public Long getIdMensajeReferencia() {
+	public int getIdMensajeReferencia() {
 		return idMensajeReferencia;
 	}
 
-	public void setIdMensajeReferencia(Long idMensajeReferencia) {
+	public void setIdMensajeReferencia(int idMensajeReferencia) {
 		this.idMensajeReferencia = idMensajeReferencia;
 	}
 
