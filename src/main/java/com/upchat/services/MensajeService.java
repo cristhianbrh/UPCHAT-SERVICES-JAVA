@@ -95,6 +95,15 @@ public class MensajeService implements IMensajeService {
 
 	@Override
 	public ResponseEntity<List<Object[]>> findPublishersAll(String jwt) {
+		return this.getPublicationsAndResponses(jwt, -1);
+	}
+
+	@Override
+	public ResponseEntity<List<Object[]>> findResponsesInMessage(String jwt, int number) {
+		return this.getPublicationsAndResponses(jwt, number);
+	}
+
+	private ResponseEntity<List<Object[]>> getPublicationsAndResponses(String jwt, int number){
 		Claims claim = jwtUtil.extractAllClaims(jwt);
 		int idUser = ((Number) claim.get("id")).intValue();
 
@@ -102,37 +111,11 @@ public class MensajeService implements IMensajeService {
 		if (!user.isPresent()) {
 			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 		}
-		List<Object[]> messagesList = mensajeRepo.findCustomMessages(idUser, -1);
-		// List<messageGetAllInfoDto> ListFormatedMessages = messagesList.stream()
-		// .map(msgCurrent -> new messageGetAllInfoDto(
-		// 	Integer.parseInt(msgCurrent[0].toString()), 
-		// 	msgCurrent[1].toString(), 
-		// 	msgCurrent[2].toString(), 
-		// 	Integer.parseInt(msgCurrent[3].toString()),
-		// 	msgCurrent[4].toString(), 
-		// 	msgCurrent[5].toString(),
-		// 	Integer.parseInt(msgCurrent[6].toString()),
-		// 	new Date(msgCurrent[7].toString()),
-		// 	Integer.parseInt(msgCurrent[8].toString()),
-		// 	Boolean.parseBoolean(msgCurrent[9].toString()),
-		// 	Integer.parseInt(msgCurrent[10].toString()),
-		// 	Integer.parseInt(msgCurrent[11].toString()),
-		// 	new messageGetAllInfo_userDto(
-		// 		Integer.parseInt(msgCurrent[13].toString()),
-		// 		msgCurrent[14].toString(),
-		// 		msgCurrent[15].toString()
-		// 	),
-		// 	Double.parseDouble(msgCurrent[16].toString())	
-		// ));
-
+		List<Object[]> messagesList = mensajeRepo.findCustomMessages(idUser, number);
 		return new ResponseEntity<>(messagesList, HttpStatus.OK);
 	}
 
-	@Override
-	public List<Mensaje> findResponsesInMessage(String jwt, int number) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
 	@Override
 	public List<Mensaje> getPublications(String jwt, int isPublication, int messageIdOne) {

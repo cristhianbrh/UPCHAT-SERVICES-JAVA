@@ -16,7 +16,7 @@ public interface IMensajeService {
 
 	public ResponseEntity<List<Object[]>> findPublishersAll(String jwt);
 
-	public List<Mensaje> findResponsesInMessage(String jwt, int number);
+	public ResponseEntity<List<Object[]>> findResponsesInMessage(String jwt, int number);
 
 	public List<Mensaje> getPublications(String jwt, int isPublication, int messageIdOne);
 

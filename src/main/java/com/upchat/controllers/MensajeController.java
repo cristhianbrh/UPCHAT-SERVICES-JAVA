@@ -47,4 +47,12 @@ public class MensajeController {
     ){
         return mensajeService.findPublishersAll(jwt);
     }
+    @GetMapping("/allresponses")
+    // public List<messageGetAllInfoQuery> findAllPublications(
+    public ResponseEntity<List<Object[]>> findAllresponses(
+        @RequestParam(name = "id") int id,
+        @RequestParam(name = "jwt") String jwt
+    ){
+        return mensajeService.findResponsesInMessage(jwt, id);
+    }
 }
