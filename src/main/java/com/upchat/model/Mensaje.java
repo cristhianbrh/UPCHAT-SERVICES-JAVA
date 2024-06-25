@@ -3,6 +3,8 @@ package com.upchat.model;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +43,7 @@ public class Mensaje {
 
 	@ManyToOne
 	@JoinColumn(name = "categoria", nullable = false)
+	@JsonBackReference
 	private Categoria categoria;
 
 	@Column(nullable = false)
