@@ -47,6 +47,11 @@ public class UsuarioService implements IUsuarioService {
 		usuario.setRol(rol);
 		System.out.println(newUsuario);
 
+		Usuario ifUserExist = usuarioRepo.findByCorreo(newUsuario.correo);
+		if (ifUserExist != null) {
+			return new ResponseEntity<>("El correo ya existe", HttpStatus.NOT_FOUND);
+		}
+
 		usuarioRepo.save(usuario);
 
 		String userJwt = jwtUtil.JwtGenerateUser(usuario);
